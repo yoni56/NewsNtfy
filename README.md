@@ -1,5 +1,5 @@
 # NewsNtfy
-A small utility I wrote to stay up-to-date with the latest headline article on news sites
+A small utility I wrote to stay up-to-date with the latest headline article on news sites.
 The utility monitors the websites by sending a simple GET request to the homepage, parsing the DOM, and sending a push notification to the phone. The utility has cache memory, which compares the current headline "hash" with the cached version in order to prevent sending duplicates.
  
 # Adding support to a news website
