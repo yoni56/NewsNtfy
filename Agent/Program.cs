@@ -1,10 +1,11 @@
 ﻿using DotNetEnv;
 using FluentScheduler;
 using Hanssens.Net;
-using NewsNotify.Jobs;
-using NewsNotify.Models;
+using Sdk.Articles;
 using NewsNotify.Services;
 using NewsNotify.Registries;
+using Sdk.Base;
+using System.Reflection;
 
 Console.Title = "NewsNotfy";
 
@@ -15,16 +16,36 @@ var cache = new LocalStorage();
 
 var minutes = Env.GetInt("minutes");
 
-var registries = new SiteRegistry[]
-{
-    new SiteRegistry(new YNetJob(Update), minutes),
-    new SiteRegistry(new WallaJob(Update), minutes)
-};
+var Registries = GetJobs()
+    .Select(x => new SiteRegistry(x, minutes))
+    .ToArray();
 
-JobManager.Initialize(registries);
+JobManager.Initialize(Registries);
 Console.WriteLine("registries initialized.");
 
 Console.ReadKey();
+
+List<IJob?> GetJobs()
+{
+    var modules = Directory.EnumerateFiles(
+        "..\\Websites\\", 
+        "*.Site.dll", 
+        SearchOption.AllDirectories
+    ).ToList();
+
+    var items = modules.Select(path =>
+    {
+        var assembly = Assembly.LoadFrom(path);
+        var typeName = assembly.ExportedTypes
+            .Single(x => x.Name.Equals("DllMain")).FullName;
+        var instance = assembly.CreateInstance(typeName);
+
+        ((DllBase)instance).SetUpdate(Update);
+        return (IJob)instance;
+    }).ToList();
+
+    return items!;
+}
 
 void Update(IArticle article)
 {

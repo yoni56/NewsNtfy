@@ -8,7 +8,7 @@ namespace NewsNotify.Services
 
         public NtfySh()
         {
-            client = new RestClient("https://ntfy.sh");
+            this.client = new RestClient("https://ntfy.sh");
         }
 
         public void sendMessage(string title, string text, string url)

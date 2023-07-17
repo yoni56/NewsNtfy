@@ -1,7 +1,8 @@
 ﻿using Hanssens.Net;
 using System.Web;
+using Sdk.Articles;
 
-namespace NewsNotify.Models
+namespace Walla_.Models
 {
     public class WallaArticle : IArticle
     {
@@ -28,7 +29,7 @@ namespace NewsNotify.Models
             return Convert.ToInt32(subString);
         }
 
-        public IArticle ReadCached(LocalStorage storage)
+        public IArticle ReadCached(ILocalStorage storage)
         {
             return storage.Get<WallaArticle>(Key);
         }

@@ -2,8 +2,9 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using Sdk.Articles;
 
-namespace NewsNotify.Models
+namespace YNet.Models
 {
     public class YNetArticle : IArticle
     {
@@ -46,7 +47,7 @@ namespace NewsNotify.Models
             }
         }
 
-        public IArticle ReadCached(LocalStorage storage)
+        public IArticle ReadCached(ILocalStorage storage)
         {
             return storage.Get<YNetArticle>(Key);
         }

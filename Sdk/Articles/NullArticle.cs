@@ -1,7 +1,7 @@
 ﻿using Hanssens.Net;
 using HtmlAgilityPack;
 
-namespace NewsNotify.Models
+namespace Sdk.Articles
 {
     public class NullArticle : IArticle
     {
@@ -22,7 +22,7 @@ namespace NewsNotify.Models
             throw new NotImplementedException();
         }
 
-        public IArticle ReadCached(LocalStorage storage)
+        public IArticle ReadCached(ILocalStorage storage)
         {
             throw new NotImplementedException();
         }

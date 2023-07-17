@@ -1,27 +1,18 @@
 ﻿using FluentScheduler;
 using HtmlAgilityPack;
-using NewsNotify.Models;
+using Walla_.Models;
+using Sdk.Articles;
+using Sdk.Base;
 
-namespace NewsNotify.Jobs
+namespace Walla_
 {
-    public class WallaJob : BaseJob, IJob
+    public class DllMain : DllBase, IJob
     {
-        private readonly Action<IArticle> _update;
-
-        public WallaJob(Action<IArticle> update)
-        {
-            _update = update;
-        }
-
-        public void Execute()
+        public override void Execute()
         {
             try
             {
-                var uri = new Uri("https://www.walla.co.il/");
-                var html = this.GetBrowser().AjaxDownloadString(uri);
-                var doc = new HtmlDocument();
-
-                doc.LoadHtml(html);
+                var doc = this.GetHtmlDocument("https://www.walla.co.il/");
 
                 var articleNode = doc.DocumentNode.SelectSingleNode("//body//article");
 
@@ -35,12 +26,12 @@ namespace NewsNotify.Jobs
                 var body = bodyNode.GetDirectInnerText();
                 var href = linkNode.GetAttributeValue<string>("href", "");
 
-                this._update(new WallaArticle(headline, title, body, href));
+                this.RaiseUpdate(new WallaArticle(headline, title, body, href));
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                this._update(new NullArticle());
+                this.RaiseUpdate(new NullArticle());
             }
         }
     }

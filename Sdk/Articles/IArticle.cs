@@ -1,6 +1,6 @@
 ﻿using Hanssens.Net;
 
-namespace NewsNotify.Models
+namespace Sdk.Articles
 {
     public interface IArticle
     {
@@ -11,6 +11,6 @@ namespace NewsNotify.Models
         string Body { get; }
         string Link { get; }
         int GetHashCode();
-        IArticle ReadCached(LocalStorage storage);
+        IArticle ReadCached(ILocalStorage storage);
     }
 }

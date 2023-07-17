@@ -1,7 +1,4 @@
-﻿using DotNetEnv;
-using FluentScheduler;
-using NewsNotify.Jobs;
-using NewsNotify.Models;
+﻿using FluentScheduler;
 
 namespace NewsNotify.Registries
 {

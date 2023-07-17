@@ -1,27 +1,18 @@
 ﻿using FluentScheduler;
 using HtmlAgilityPack;
-using NewsNotify.Models;
+using YNet.Models;
+using Sdk.Base;
+using Sdk.Articles;
 
-namespace NewsNotify.Jobs
+namespace YNet
 {
-    public class YNetJob : BaseJob, IJob
+    public class DllMain : DllBase, IJob
     {
-        private readonly Action<IArticle> _update;
-
-        public YNetJob(Action<IArticle> update)
-        {
-            this._update = update;
-        }
-
-        public void Execute()
+        public override void Execute()
         {
             try
             {
-                var uri = new Uri("https://www.ynet.co.il/home/0,7340,L-8,00.html");
-                var html = this.GetBrowser().AjaxDownloadString(uri);
-                var doc = new HtmlDocument();
-
-                doc.LoadHtml(html);
+                var doc = this.GetHtmlDocument("https://www.ynet.co.il/home/0,7340,L-8,00.html");
 
                 var articleNode = doc.DocumentNode.SelectSingleNode("//div[@class='slotView']");
 
@@ -35,12 +26,12 @@ namespace NewsNotify.Jobs
                 var body = bodyNode.GetDirectInnerText();
                 var href = linkNode.GetAttributeValue<string>("href", "");
 
-                this._update(new YNetArticle(headline, title, body, href));
+                this.RaiseUpdate(new YNetArticle(headline, title, body, href));
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                this._update(new NullArticle());
+                this.RaiseUpdate(new NullArticle());
             }
         }
     }
