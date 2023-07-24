@@ -7,7 +7,7 @@ using NewsNotify.Registries;
 using Sdk.Base;
 using System.Reflection;
 
-Console.Title = "NewsNotfy";
+Console.Title = "newsNtfy";
 
 Env.Load();
 
@@ -21,7 +21,7 @@ var Registries = GetJobs()
     .ToArray();
 
 JobManager.Initialize(Registries);
-Console.WriteLine("registries initialized.");
+Console.WriteLine("Registries initialized.");
 
 Console.ReadKey();
 
