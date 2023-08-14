@@ -6,29 +6,32 @@ using NewsNotify.Services;
 using NewsNotify.Registries;
 using Sdk.Base;
 using System.Reflection;
+using System.Security.AccessControl;
 
-Console.Title = "newsNtfy";
+Console.Title = "NewsNtfy";
 
 Env.Load();
 
 var ntfy = new NtfySh();
 var cache = new LocalStorage();
 
+object updatelock = new object();
 var minutes = Env.GetInt("minutes");
 
 var Registries = GetJobs()
     .Select(x => new SiteRegistry(x, minutes))
     .ToArray();
 
-JobManager.Initialize(Registries);
-Console.WriteLine("Registries initialized.");
 
+JobManager.Initialize(Registries);
+
+Console.WriteLine("Registries initialized, Press any key to exit...");
 Console.ReadKey();
 
 List<IJob?> GetJobs()
 {
     var modules = Directory.EnumerateFiles(
-        "..\\Websites\\", 
+        ".\\Websites\\", 
         "*.Site.dll", 
         SearchOption.AllDirectories
     ).ToList();
@@ -47,32 +50,37 @@ List<IJob?> GetJobs()
     return items!;
 }
 
+
+
 void Update(IArticle article)
 {
-    if (article is NullArticle)
+    lock (updatelock)
     {
-        return;
-    }
-
-    var hashCode = article.GetHashCode();
-
-    if (cache.Exists(article.Key))
-    {
-        var cachedArticle = article.ReadCached(cache);
-        var cachedHashCode = cachedArticle.GetHashCode();
-
-        if (hashCode == cachedHashCode)
+        if (article is NullArticle)
         {
-            // same article, we exit
-            Console.WriteLine($"{hashCode} same article for {article.Key}, exit.");
             return;
         }
+
+        var hashCode = article.GetHashCode();
+
+        if (cache.Exists(article.Key))
+        {
+            var cachedArticle = article.ReadCached(cache);
+            var cachedHashCode = cachedArticle.GetHashCode();
+
+            if (hashCode == cachedHashCode)
+            {
+                // same article, we exit
+                Console.WriteLine($"{hashCode} same article for {article.Key}, exit.");
+                return;
+            }
+        }
+
+        Console.WriteLine($"{hashCode} new article for {article.Key}, publish.");
+
+        ntfy.sendMessage(article.SiteName, $"{article.Headline}\n{article.Title}", article.ImgSrc, article.Link);
+
+        cache.Store(article.Key, article);
+        cache.Persist();
     }
-
-    Console.WriteLine($"{hashCode} new article for {article.Key}, publish.");
-
-    ntfy.sendMessage(article.SiteName, $"{article.Headline}\n{article.Title}", article.Link);
-
-    cache.Store(article.Key, article);
-    cache.Persist();
 }

@@ -2,15 +2,16 @@
 
 namespace Sdk.Articles
 {
-    public interface IArticle
+    public abstract class IArticle
     {
-        string Key { get; }
-        string SiteName { get; }
-        string Headline { get; }
-        string Title { get; }
-        string Body { get; }
-        string Link { get; }
-        int GetHashCode();
-        IArticle ReadCached(ILocalStorage storage);
+        public string Key { get; protected set; }
+        public string SiteName { get; protected set; }
+        public string Headline { get; protected set; }
+        public string Title { get; protected set; }
+        public string Body { get; protected set; }
+        public string Link { get; protected set; }
+        public string ImgSrc { get; protected set; }
+        public override abstract int GetHashCode();
+        public abstract IArticle ReadCached(ILocalStorage storage);
     }
 }

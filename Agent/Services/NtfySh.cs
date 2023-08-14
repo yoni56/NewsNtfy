@@ -11,11 +11,14 @@ namespace NewsNotify.Services
             this.client = new RestClient("https://ntfy.sh");
         }
 
-        public void sendMessage(string title, string text, string url)
+        public void sendMessage(string title, string text, string attachUrl, string httpUrl)
         {
             var request = new RestRequest("/newsNotify", Method.Post);
-            request.AddHeader("title", title);
-            request.AddHeader("click", url);
+
+            request.AddHeader("Title", title);
+            request.AddHeader("Click", httpUrl);
+            request.AddHeader("Attach", attachUrl);
+
             request.AddBody(text);
 
             this.client.Execute(request);

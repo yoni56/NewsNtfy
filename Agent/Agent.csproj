@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -15,13 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sdk\Sdk.csproj" />
-    <ProjectReference Include="..\Websites\Walla!\Walla!.csproj">
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Websites\YNet\YNet.csproj">
-      <Private>True</Private>
-      <CopyLocalSatelliteAssemblies></CopyLocalSatelliteAssemblies>
-    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>

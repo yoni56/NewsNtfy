@@ -8,29 +8,25 @@ namespace YNet.Models
 {
     public class YNetArticle : IArticle
     {
-        public string Key => "YNET";
-        public string SiteName => "ynet";
-        public string Headline { get; private set; }
-        public string Title { get; private set; }
-        public string Body { get; private set; }
-        public string Link { get; private set; }
-
-        public YNetArticle(string headline, string title, string body, string link)
+        public YNetArticle(string headline, string title, string body, string imgSrc, string link)
         {
+            this.Key = "YNET";
+            this.SiteName = "ynet";
             this.Headline = HttpUtility.HtmlDecode(headline);
             this.Title = HttpUtility.HtmlDecode(title);
             this.Body = HttpUtility.HtmlDecode(body);
             this.Link = link;
+            this.ImgSrc = imgSrc;
         }
 
         public override int GetHashCode()
         {
-            var lastSlash = Link.LastIndexOf('/');
-            var lastHash = Link.LastIndexOf('#');
+            var lastSlash = this.Link.LastIndexOf('/');
+            var lastHash = this.Link.LastIndexOf('#');
 
             var subString = lastHash > -1 ?
-                Link.Substring(lastSlash + 1, lastHash - lastSlash - 1) :
-                Link.Substring(lastSlash + 1);
+                this.Link.Substring(lastSlash + 1, lastHash - lastSlash - 1) :
+                this.Link.Substring(lastSlash + 1);
 
             return GetUniqueHashCode(subString);
         }
@@ -47,9 +43,9 @@ namespace YNet.Models
             }
         }
 
-        public IArticle ReadCached(ILocalStorage storage)
+        public override IArticle ReadCached(ILocalStorage storage)
         {
-            return storage.Get<YNetArticle>(Key);
+            return storage.Get<YNetArticle>(this.Key);
         }
     }
 }

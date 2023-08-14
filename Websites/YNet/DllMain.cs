@@ -20,13 +20,15 @@ namespace YNet
                 var headlineNode = articleNode.SelectSingleNode("./div[2]//img");
                 var titleNode = linkNode.SelectSingleNode("./h1/span");
                 var bodyNode = linkNode.SelectSingleNode("./div/span");
+                var imgNode = articleNode.SelectSingleNode(".//img");
 
                 var headline = headlineNode.GetAttributeValue<string>("alt", "");
                 var title = titleNode.GetDirectInnerText();
                 var body = bodyNode.GetDirectInnerText();
                 var href = linkNode.GetAttributeValue<string>("href", "");
+                var imgSrc = imgNode.GetAttributeValue<string>("src", "");
 
-                this.RaiseUpdate(new YNetArticle(headline, title, body, href));
+                this.RaiseUpdate(new YNetArticle(headline, title, body, imgSrc, href));
             }
             catch (Exception ex)
             {
