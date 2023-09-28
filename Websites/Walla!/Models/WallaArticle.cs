@@ -1,6 +1,6 @@
 ﻿using Hanssens.Net;
-using System.Web;
 using Sdk.Articles;
+using System.Web;
 
 namespace Walla_.Models
 {
@@ -19,10 +19,15 @@ namespace Walla_.Models
 
         public override int GetHashCode()
         {
-            var lastIndex = this.Link.LastIndexOf('/');
-            var subString = this.Link.Substring(lastIndex + 1);
+            if (this.Link.Contains("/item/"))
+            {
+                var lastIndex = this.Link.LastIndexOf('/');
+                var subString = this.Link.Substring(lastIndex + 1);
 
-            return Convert.ToInt32(subString);
+                return Convert.ToInt32(subString);
+            }
+
+            return this.Link.GetHashCode();
         }
 
         public override IArticle ReadCached(ILocalStorage storage)

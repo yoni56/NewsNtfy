@@ -11,6 +11,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.51" />
     <PackageReference Include="LocalStorage" Version="2.1.0" />
     <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.2" />
+    <PackageReference Include="RestSharp" Version="110.2.0" />
     <PackageReference Include="ScrapySharp" Version="3.0.0" />
   </ItemGroup>
 

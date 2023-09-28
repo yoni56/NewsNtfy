@@ -1,8 +1,8 @@
 ﻿using Hanssens.Net;
+using Sdk.Articles;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-using Sdk.Articles;
 
 namespace YNet.Models
 {
@@ -21,14 +21,16 @@ namespace YNet.Models
 
         public override int GetHashCode()
         {
-            var lastSlash = this.Link.LastIndexOf('/');
-            var lastHash = this.Link.LastIndexOf('#');
+            //var lastSlash = this.Link.LastIndexOf('/');
+            //var lastHash = this.Link.LastIndexOf('#');
 
-            var subString = lastHash > -1 ?
-                this.Link.Substring(lastSlash + 1, lastHash - lastSlash - 1) :
-                this.Link.Substring(lastSlash + 1);
+            //var subString = lastHash > -1 ?
+            //    this.Link.Substring(lastSlash + 1, lastHash - lastSlash - 1) :
+            //    this.Link.Substring(lastSlash + 1);
 
-            return GetUniqueHashCode(subString);
+            //return GetUniqueHashCode(subString);
+
+            return this.Link.GetHashCode();
         }
 
         private int GetUniqueHashCode(string input)

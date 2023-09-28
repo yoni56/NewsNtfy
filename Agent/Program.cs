@@ -1,12 +1,12 @@
 ﻿using DotNetEnv;
 using FluentScheduler;
 using Hanssens.Net;
-using Sdk.Articles;
-using NewsNotify.Services;
 using NewsNotify.Registries;
+using NewsNotify.Services;
+using Sdk.Articles;
 using Sdk.Base;
+using System.Diagnostics;
 using System.Reflection;
-using System.Security.AccessControl;
 
 Console.Title = "NewsNtfy";
 
@@ -25,16 +25,19 @@ var Registries = GetJobs()
 
 JobManager.Initialize(Registries);
 
-Console.WriteLine("Registries initialized, Press any key to exit...");
+var instance = Process.GetCurrentProcess();
+
+Console.WriteLine($"{Registries.Count()} Registries initialized, Press any key to exit... PID is {instance.Id}");
 Console.ReadKey();
 
 List<IJob?> GetJobs()
 {
-    var modules = Directory.EnumerateFiles(
-        ".\\Websites\\", 
-        "*.Site.dll", 
-        SearchOption.AllDirectories
-    ).ToList();
+#if DEBUG
+    var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "Websites");
+#else
+      var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Websites");
+#endif
+    var modules = Directory.EnumerateFiles(path, "*.Site.dll", SearchOption.AllDirectories).ToList();
 
     var items = modules.Select(path =>
     {

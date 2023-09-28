@@ -13,6 +13,8 @@
     <PackageReference Include="FluentScheduler" Version="5.5.1" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.51" />
     <PackageReference Include="LocalStorage" Version="2.1.0" />
+    <PackageReference Include="Magick.NET-Q16-x64" Version="13.3.0" />
+    <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.2" />
   </ItemGroup>
 
   <ItemGroup>
