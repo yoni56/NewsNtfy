@@ -1,15 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using DotNetEnv;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace Sdk.ImgBB
 {
     public class ImgBBClient
     {
-        private const string apikey = "248e793e3a4b6675b9ede6404c10d5a8";
+        private readonly string apikey;
         private readonly RestClient client;
 
         public ImgBBClient()
         {
+            this.apikey = Env.GetString("imgBBApiKey");
             this.client = new RestClient("https://api.imgbb.com");
         }
 

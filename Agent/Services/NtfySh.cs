@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using System.Web;
 
 namespace NewsNotify.Services
 {
@@ -11,24 +12,23 @@ namespace NewsNotify.Services
             this.client = new RestClient("https://ntfy.sh");
         }
 
-        public void sendMessage(string title, string text, string attachUrl, string httpUrl)
+        public void notifyArticleChanged(string title, string text, string imgUrl, string link)
         {
             var request = new RestRequest("/newsNotify");
 
             request.AddHeader("Title", title);
-            request.AddHeader("Click", httpUrl);
+            request.AddHeader("Click", link);
 
-            if (attachUrl.Contains("https"))
+            if (imgUrl.Contains("https"))
             {
                 request.Method = Method.Post;
-                request.AddHeader("Attach", attachUrl);
+                request.AddHeader("Attach", imgUrl);
             }
             else
             {
                 request.Method = Method.Put;
-                request.AddFile("Filename", attachUrl);
+                request.AddFile("Filename", imgUrl);
             }
-           
 
             request.AddBody(text);
 

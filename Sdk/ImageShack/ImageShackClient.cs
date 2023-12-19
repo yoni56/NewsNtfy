@@ -1,25 +1,21 @@
-﻿using Newtonsoft.Json;
+﻿using DotNetEnv;
+using Newtonsoft.Json;
 using RestSharp;
-using Sdk.ImgBB;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sdk.ImageShack
 {
     public class ImageShackClient
     {
-        private const string apikey = "235BCFOQ6bdafe3458612269b6172428edae39d9";
+        private readonly string apikey;
         private readonly RestClient client;
 
         public ImageShackClient()
         {
+            this.apikey = Env.GetString("imageShackApiKey");
             this.client = new RestClient("https://post.imageshack.us");
         }
 
-        public ImageShackApiResult UploadImageByFilename(string fileName, string filePath)
+        public ImageShackApiResult UploadImageByFile(string fileName, string filePath)
         {
             var request = new RestRequest("upload_api.php", Method.Post);
 

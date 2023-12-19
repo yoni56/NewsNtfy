@@ -46,7 +46,7 @@ List<IJob?> GetJobs()
             .Single(x => x.Name.Equals("DllMain")).FullName;
         var instance = assembly.CreateInstance(typeName);
 
-        ((DllBase)instance).SetUpdate(Update);
+        ((IDllMain)instance).SetUpdateCallback(UpdateCallback);
         return (IJob)instance;
     }).ToList();
 
@@ -55,12 +55,14 @@ List<IJob?> GetJobs()
 
 
 
-void Update(IArticle article)
+void UpdateCallback(IArticle article)
 {
     lock (updatelock)
     {
-        if (article is NullArticle)
+        if (article is ExceptionArticle)
         {
+            // print the exception
+            Console.WriteLine(article.OptionalInfo);
             return;
         }
 
@@ -81,7 +83,7 @@ void Update(IArticle article)
 
         Console.WriteLine($"{hashCode} new article for {article.Key}, publish.");
 
-        ntfy.sendMessage(article.SiteName, $"{article.Headline}\n{article.Title}", article.ImgSrc, article.Link);
+        ntfy.notifyArticleChanged(article.SiteName, $"{article.Headline}\n{article.Title}", article.ImgSrc, article.Link);
 
         cache.Store(article.Key, article);
         cache.Persist();

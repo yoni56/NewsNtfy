@@ -1,33 +1,19 @@
 ﻿using Hanssens.Net;
 using Sdk.Articles;
-using System.Web;
 
 namespace Walla_.Models
 {
     public class WallaArticle : IArticle
     {
-        public WallaArticle(string headline, string title, string body, string imgSrc, string link)
+        public WallaArticle()
         {
             this.Key = "WALLA";
             this.SiteName = "Walla! News";
-            this.Headline = HttpUtility.HtmlDecode(headline);
-            this.Title = HttpUtility.HtmlDecode(title);
-            this.Body = HttpUtility.HtmlDecode(body);
-            this.Link = link;
-            this.ImgSrc = imgSrc;
         }
 
         public override int GetHashCode()
         {
-            if (this.Link.Contains("/item/"))
-            {
-                var lastIndex = this.Link.LastIndexOf('/');
-                var subString = this.Link.Substring(lastIndex + 1);
-
-                return Convert.ToInt32(subString);
-            }
-
-            return this.Link.GetHashCode();
+            return this.GetHashCodeMd5(this.Link);
         }
 
         public override IArticle ReadCached(ILocalStorage storage)

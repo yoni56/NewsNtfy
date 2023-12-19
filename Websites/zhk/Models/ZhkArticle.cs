@@ -1,14 +1,14 @@
 ﻿using Hanssens.Net;
 using Sdk.Articles;
 
-namespace YNet.Models
+namespace zhk.Models
 {
-    public class YNetArticle : IArticle
+    public class ZhkArticle : IArticle
     {
-        public YNetArticle()
+        public ZhkArticle()
         {
-            this.Key = "YNET";
-            this.SiteName = "ynet";
+            this.Key = "ZHK_Karmiel";
+            this.SiteName = "ZoharNet, Karmie'l";
         }
 
         public override int GetHashCode()
@@ -18,7 +18,7 @@ namespace YNet.Models
 
         public override IArticle ReadCached(ILocalStorage storage)
         {
-            return storage.Get<YNetArticle>(this.Key);
+            return storage.Get<ZhkArticle>(this.Key);
         }
     }
 }

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetEnv" Version="2.5.0" />
     <PackageReference Include="FluentScheduler" Version="5.5.1" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.51" />
     <PackageReference Include="LocalStorage" Version="2.1.0" />

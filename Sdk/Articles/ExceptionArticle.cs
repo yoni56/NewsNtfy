@@ -2,7 +2,7 @@
 
 namespace Sdk.Articles
 {
-    public class NullArticle : IArticle
+    public class ExceptionArticle : IArticle
     {
         public override int GetHashCode()
         {

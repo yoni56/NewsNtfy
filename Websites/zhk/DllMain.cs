@@ -1,9 +1,7 @@
-﻿using HtmlAgilityPack;
-using Sdk.Articles;
+﻿using Sdk.Articles;
 using Sdk.Base;
-using YNet.Models;
 
-namespace YNet
+namespace zhk
 {
     public class DllMain : IDllMain
     {
@@ -11,8 +9,8 @@ namespace YNet
         {
             try
             {
-                var pageDom = this.GetPageDom("https://www.ynet.co.il/home/0,7340,L-8,00.html");
-                var article = new YNetGrabber(pageDom).GrabArticleFirstOrDefault();
+                var pageDom = this.GetPageDom("https://www.zhk.co.il/category/news/karmiel-news/");
+                var article = new ZhkGrabber(pageDom).GrabArticleFirstOrDefault();
 
                 this.RaiseUpdateEvent(article);
             }
