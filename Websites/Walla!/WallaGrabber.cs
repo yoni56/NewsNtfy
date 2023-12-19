@@ -2,12 +2,6 @@
 using HtmlAgilityPack;
 using Sdk.Articles;
 using Sdk.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using Walla_.Models;
 
 namespace Walla_
