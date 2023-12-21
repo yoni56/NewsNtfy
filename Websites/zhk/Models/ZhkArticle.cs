@@ -11,12 +11,7 @@ namespace zhk.Models
             this.SiteName = "ZoharNet, Karmie'l";
         }
 
-        public override int GetHashCode()
-        {
-            return this.GetHashCodeMd5(this.Link);
-        }
-
-        public override IArticle ReadCached(ILocalStorage storage)
+        public override IArticle GetCached(ILocalStorage storage)
         {
             return storage.Get<ZhkArticle>(this.Key);
         }

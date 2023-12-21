@@ -11,12 +11,7 @@ namespace YNet.Models
             this.SiteName = "ynet";
         }
 
-        public override int GetHashCode()
-        {
-            return this.GetHashCodeMd5(this.Link);
-        }
-
-        public override IArticle ReadCached(ILocalStorage storage)
+        public override IArticle GetCached(ILocalStorage storage)
         {
             return storage.Get<YNetArticle>(this.Key);
         }

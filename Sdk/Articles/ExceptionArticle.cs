@@ -9,7 +9,7 @@ namespace Sdk.Articles
             throw new NotImplementedException();
         }
 
-        public override IArticle ReadCached(ILocalStorage storage)
+        public override IArticle GetCached(ILocalStorage storage)
         {
             throw new NotImplementedException();
         }

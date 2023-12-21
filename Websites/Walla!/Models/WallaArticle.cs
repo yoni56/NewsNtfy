@@ -11,12 +11,7 @@ namespace Walla_.Models
             this.SiteName = "Walla! News";
         }
 
-        public override int GetHashCode()
-        {
-            return this.GetHashCodeMd5(this.Link);
-        }
-
-        public override IArticle ReadCached(ILocalStorage storage)
+        public override IArticle GetCached(ILocalStorage storage)
         {
             return storage.Get<WallaArticle>(this.Key);
         }

@@ -70,7 +70,7 @@ void UpdateCallback(IArticle article)
 
         if (cache.Exists(article.Key))
         {
-            var cachedArticle = article.ReadCached(cache);
+            var cachedArticle = article.GetCached(cache);
             var cachedHashCode = cachedArticle.GetHashCode();
 
             if (hashCode == cachedHashCode)

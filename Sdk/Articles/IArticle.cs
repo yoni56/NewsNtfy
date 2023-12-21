@@ -1,4 +1,5 @@
 ﻿using Hanssens.Net;
+using RestSharp;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -18,10 +19,14 @@ namespace Sdk.Articles
 
         public string OptionalInfo { get; set; }
 
-        public override abstract int GetHashCode();
-        public abstract IArticle ReadCached(ILocalStorage storage);
+        public override int GetHashCode()
+        {
+            return this.GetIntHashMd5ByStringValue(this.Link);
+        }
 
-        protected int GetHashCodeMd5(string value)
+        public abstract IArticle GetCached(ILocalStorage storage);
+
+        private int GetIntHashMd5ByStringValue(string value)
         {
             MD5 md5Hasher = MD5.Create();
             var hashed = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(value));
